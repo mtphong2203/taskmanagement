@@ -10,9 +10,9 @@ public interface ProjectService {
 
     ProjectDTO getById(UUID id);
 
-    boolean create(ProjectDTO taskDTO);
+    boolean create(ProjectDTO projectDTO);
 
-    boolean update(UUID id, ProjectDTO taskDTO);
+    boolean update(UUID id, ProjectDTO projectDTO);
 
     boolean delete(UUID id);
 

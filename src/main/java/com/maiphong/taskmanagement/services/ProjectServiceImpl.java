@@ -16,15 +16,15 @@ import com.maiphong.taskmanagement.repositories.ProjectRepository;
 @Transactional
 public class ProjectServiceImpl implements ProjectService {
 
-    private final ProjectRepository taskRepository;
+    private final ProjectRepository projectRepository;
 
-    public ProjectServiceImpl(ProjectRepository taskRepository) {
-        this.taskRepository = taskRepository;
+    public ProjectServiceImpl(ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
     }
 
     @Override
     public List<ProjectDTO> getAll() {
-        List<Project> projects = taskRepository.findAll();
+        List<Project> projects = projectRepository.findAll();
         // Convert to list DTO
         List<ProjectDTO> projectDTOs = projects.stream().map(project -> {
             // do one by one
@@ -43,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectDTO getById(UUID id) {
-        Project project = taskRepository.findById(id).orElse(null);
+        Project project = projectRepository.findById(id).orElse(null);
 
         if (project == null) {
             throw new ResourceNotFoundException("Project is not found");
@@ -66,7 +66,7 @@ public class ProjectServiceImpl implements ProjectService {
             throw new IllegalArgumentException("Project is required");
         }
 
-        Project project = taskRepository.findByName(projectDTO.getName());
+        Project project = projectRepository.findByName(projectDTO.getName());
 
         if (project != null) {
             throw new IllegalArgumentException("Project title is exist!");
@@ -79,7 +79,7 @@ public class ProjectServiceImpl implements ProjectService {
         newProject.setEndDate(projectDTO.getEndDate());
         newProject.setStatus(Status.valueOf(projectDTO.getStatus().toUpperCase()));
 
-        newProject = taskRepository.save(newProject);
+        newProject = projectRepository.save(newProject);
 
         return newProject != null;
     }
@@ -90,7 +90,7 @@ public class ProjectServiceImpl implements ProjectService {
             throw new IllegalArgumentException("Project is required");
         }
 
-        Project newProject = taskRepository.findById(id).orElse(null);
+        Project newProject = projectRepository.findById(id).orElse(null);
 
         if (newProject == null) {
             throw new IllegalArgumentException("Project title is not exist!");
@@ -102,22 +102,22 @@ public class ProjectServiceImpl implements ProjectService {
         newProject.setEndDate(projectDTO.getEndDate());
         newProject.setStatus(Status.valueOf(projectDTO.getStatus().toUpperCase()));
 
-        newProject = taskRepository.save(newProject);
+        newProject = projectRepository.save(newProject);
 
         return newProject != null;
     }
 
     @Override
     public boolean delete(UUID id) {
-        Project project = taskRepository.findById(id).orElse(null);
+        Project project = projectRepository.findById(id).orElse(null);
 
         if (project == null) {
             throw new IllegalArgumentException("Project title is not exist!");
         }
 
-        taskRepository.delete(project);
+        projectRepository.delete(project);
 
-        return !taskRepository.existsById(id);
+        return !projectRepository.existsById(id);
     }
 
 }
