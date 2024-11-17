@@ -5,6 +5,7 @@ import java.util.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.maiphong.taskmanagement.dtos.comment.CommentCreateDTO;
 import com.maiphong.taskmanagement.dtos.comment.CommentDTO;
 import com.maiphong.taskmanagement.services.CommentService;
 
@@ -39,8 +40,8 @@ public class CommentController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody CommentDTO commentDTO) {
-        boolean isCreated = commentService.create(commentDTO);
+    public ResponseEntity<?> create(@RequestBody CommentCreateDTO commentCreateDTO) {
+        boolean isCreated = commentService.create(commentCreateDTO);
 
         if (!isCreated) {
             return ResponseEntity.badRequest().build();
@@ -50,8 +51,8 @@ public class CommentController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody CommentDTO commentDTO) {
-        boolean isUpdated = commentService.update(id, commentDTO);
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody CommentCreateDTO commentCreateDTO) {
+        boolean isUpdated = commentService.update(id, commentCreateDTO);
 
         if (!isUpdated) {
             return ResponseEntity.badRequest().build();

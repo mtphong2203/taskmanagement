@@ -7,8 +7,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maiphong.taskmanagement.dtos.comment.CommentCreateDTO;
 import com.maiphong.taskmanagement.dtos.comment.CommentDTO;
 import com.maiphong.taskmanagement.entities.Comment;
+import com.maiphong.taskmanagement.entities.Task;
 import com.maiphong.taskmanagement.exceptions.ResourceNotFoundException;
 import com.maiphong.taskmanagement.repositories.CommentRepository;
 
@@ -32,6 +34,11 @@ public class CommentServiceImpl implements CommentService {
 
             commentDTO.setContent(comment.getContent());
             commentDTO.setCreateAt(comment.getCreateAt());
+
+            if (comment.getTask() != null) {
+                commentDTO.setTaskName(comment.getTask().getTitle());
+            }
+
             return commentDTO;
         }).toList();
         return commentDTOs;
@@ -50,19 +57,29 @@ public class CommentServiceImpl implements CommentService {
         commentDTO.setContent(comment.getContent());
         commentDTO.setCreateAt(comment.getCreateAt());
 
+        if (comment.getTask() != null) {
+            commentDTO.setTaskName(comment.getTask().getTitle());
+        }
+
         return commentDTO;
     }
 
     @Override
-    public boolean create(CommentDTO commentDTO) {
-        if (commentDTO == null) {
+    public boolean create(CommentCreateDTO commentCreateDTO) {
+        if (commentCreateDTO == null) {
             throw new IllegalArgumentException("Comment is required");
         }
 
         Comment newComment = new Comment();
 
-        newComment.setContent(commentDTO.getContent());
+        newComment.setContent(commentCreateDTO.getContent());
         newComment.setCreateAt(LocalDate.now());
+
+        if (commentCreateDTO.getTaskId() != null) {
+            Task task = new Task();
+            task.setId(commentCreateDTO.getTaskId());
+            newComment.setTask(task);
+        }
 
         newComment = commentRepository.save(newComment);
 
@@ -70,8 +87,8 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public boolean update(UUID id, CommentDTO commentDTO) {
-        if (commentDTO == null) {
+    public boolean update(UUID id, CommentCreateDTO commentCreateDTO) {
+        if (commentCreateDTO == null) {
             throw new IllegalArgumentException("Comment is required");
         }
 
@@ -81,8 +98,13 @@ public class CommentServiceImpl implements CommentService {
             throw new IllegalArgumentException("Comment title is not exist!");
         }
 
-        newComment.setContent(commentDTO.getContent());
+        newComment.setContent(commentCreateDTO.getContent());
         newComment.setCreateAt(LocalDate.now());
+        if (commentCreateDTO.getTaskId() != null) {
+            Task task = new Task();
+            task.setId(commentCreateDTO.getTaskId());
+            newComment.setTask(task);
+        }
 
         newComment = commentRepository.save(newComment);
 
