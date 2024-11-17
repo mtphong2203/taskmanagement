@@ -93,7 +93,7 @@ public class RoleServiceImpl implements RoleService {
         Role role = roleRepository.findById(id).orElse(null);
 
         if (role == null) {
-            throw new IllegalArgumentException("Role title is not exist!");
+            throw new IllegalArgumentException("Role is not exist!");
         }
 
         roleRepository.delete(role);
