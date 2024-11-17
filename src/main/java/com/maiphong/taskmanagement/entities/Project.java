@@ -1,6 +1,7 @@
 package com.maiphong.taskmanagement.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.*;
@@ -31,5 +32,8 @@ public class Project {
 
     @Column(name = "status", nullable = false)
     private Status status;
+
+    @OneToMany(mappedBy = "project")
+    private List<Task> tasks;
 
 }

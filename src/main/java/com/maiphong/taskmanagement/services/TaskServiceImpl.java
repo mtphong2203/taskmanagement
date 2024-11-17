@@ -7,8 +7,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maiphong.taskmanagement.dtos.task.TaskCreateUpdateDTO;
 import com.maiphong.taskmanagement.dtos.task.TaskDTO;
 import com.maiphong.taskmanagement.entities.Priority;
+import com.maiphong.taskmanagement.entities.Project;
 import com.maiphong.taskmanagement.entities.Status;
 import com.maiphong.taskmanagement.entities.Task;
 import com.maiphong.taskmanagement.exceptions.ResourceNotFoundException;
@@ -37,6 +39,10 @@ public class TaskServiceImpl implements TaskService {
             // get enum value and convert to string to show
             taskDTO.setPriority(task.getPriority().toString());
             taskDTO.setStatus(task.getStatus().toString());
+
+            if (task.getProject() != null) {
+                taskDTO.setProjectName(task.getProject().getName());
+            }
             return taskDTO;
         }).toList();
         return taskDTOs;
@@ -57,37 +63,48 @@ public class TaskServiceImpl implements TaskService {
         // get enum value then convert to string to show
         taskDTO.setPriority(task.getPriority().toString());
         taskDTO.setStatus(task.getStatus().toString());
+
+        if (task.getProject() != null) {
+            taskDTO.setProjectName(task.getProject().getName());
+        }
+
         return taskDTO;
     }
 
     @Override
-    public boolean create(TaskDTO taskDTO) {
-        if (taskDTO == null) {
+    public boolean create(TaskCreateUpdateDTO taskCreateUpdateDTO) {
+        if (taskCreateUpdateDTO == null) {
             throw new IllegalArgumentException("Task is required");
         }
 
-        Task task = taskRepository.findByTitle(taskDTO.getTitle());
+        Task task = taskRepository.findByTitle(taskCreateUpdateDTO.getTitle());
 
         if (task != null) {
             throw new IllegalArgumentException("Task title is exist!");
         }
 
         Task newTask = new Task();
-        newTask.setTitle(taskDTO.getTitle());
-        newTask.setDescription(taskDTO.getDescription());
-        newTask.setDueDate(taskDTO.getDueDate());
+        newTask.setTitle(taskCreateUpdateDTO.getTitle());
+        newTask.setDescription(taskCreateUpdateDTO.getDescription());
+        newTask.setDueDate(taskCreateUpdateDTO.getDueDate());
         // input string value , need to convert to enum save to database
-        newTask.setPriority(Priority.valueOf(taskDTO.getPriority().toUpperCase()));
-        newTask.setStatus(Status.valueOf(taskDTO.getStatus().toUpperCase()));
+        newTask.setPriority(Priority.valueOf(taskCreateUpdateDTO.getPriority().toUpperCase()));
+        newTask.setStatus(Status.valueOf(taskCreateUpdateDTO.getStatus().toUpperCase()));
         newTask.setCreateAt(LocalDate.now());
+
+        if (taskCreateUpdateDTO.getProjectId() != null) {
+            Project project = new Project();
+            project.setId(taskCreateUpdateDTO.getProjectId());
+            newTask.setProject(project);
+        }
         newTask = taskRepository.save(newTask);
 
         return newTask != null;
     }
 
     @Override
-    public boolean update(UUID id, TaskDTO taskDTO) {
-        if (taskDTO == null) {
+    public boolean update(UUID id, TaskCreateUpdateDTO taskCreateUpdateDTO) {
+        if (taskCreateUpdateDTO == null) {
             throw new IllegalArgumentException("Task is required");
         }
 
@@ -97,13 +114,19 @@ public class TaskServiceImpl implements TaskService {
             throw new IllegalArgumentException("Task title is not exist!");
         }
 
-        task.setTitle(taskDTO.getTitle());
-        task.setDescription(taskDTO.getDescription());
-        task.setDueDate(taskDTO.getDueDate());
+        task.setTitle(taskCreateUpdateDTO.getTitle());
+        task.setDescription(taskCreateUpdateDTO.getDescription());
+        task.setDueDate(taskCreateUpdateDTO.getDueDate());
         // input string value , need to convert to enum save to database
-        task.setPriority(Priority.valueOf(taskDTO.getPriority().toUpperCase()));
-        task.setStatus(Status.valueOf(taskDTO.getStatus().toUpperCase()));
+        task.setPriority(Priority.valueOf(taskCreateUpdateDTO.getPriority().toUpperCase()));
+        task.setStatus(Status.valueOf(taskCreateUpdateDTO.getStatus().toUpperCase()));
         task.setUpdateAt(LocalDate.now());
+
+        if (taskCreateUpdateDTO.getProjectId() != null) {
+            Project project = new Project();
+            project.setId(taskCreateUpdateDTO.getProjectId());
+            task.setProject(project);
+        }
 
         task = taskRepository.save(task);
 

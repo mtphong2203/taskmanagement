@@ -1,6 +1,7 @@
 package com.maiphong.taskmanagement.dtos.task;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -11,7 +12,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TaskDTO {
+public class TaskCreateUpdateDTO {
     @NotNull(message = "Title required")
     private String title;
 
@@ -27,6 +28,6 @@ public class TaskDTO {
     @NotNull(message = "status is required")
     private String status;
 
-    @NotNull(message = "project name should not be null")
-    private String projectName;
+    @NotNull(message = "project id should not be null")
+    private UUID projectId;
 }

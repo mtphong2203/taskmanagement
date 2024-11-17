@@ -38,4 +38,8 @@ public class Task {
     @Column(name = "update_at", unique = true)
     private LocalDate updateAt;
 
+    @ManyToOne
+    @JoinColumn(name = "project_id", referencedColumnName = "id")
+    private Project project;
+
 }
