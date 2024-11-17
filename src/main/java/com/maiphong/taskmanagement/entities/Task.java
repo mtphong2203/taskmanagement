@@ -1,6 +1,7 @@
 package com.maiphong.taskmanagement.entities;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import jakarta.persistence.*;
@@ -38,8 +39,13 @@ public class Task {
     @Column(name = "update_at", unique = true)
     private LocalDate updateAt;
 
-    @ManyToOne
+    // Relationship with project entity
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", referencedColumnName = "id")
     private Project project;
+
+    // Relationship with comment entity
+    @OneToMany(mappedBy = "task")
+    private List<Comment> comments;
 
 }

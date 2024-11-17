@@ -23,4 +23,8 @@ public class Comment {
     @Column(name = "create_at", nullable = false)
     private LocalDate createAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id", referencedColumnName = "id")
+    private Task task;
+
 }
