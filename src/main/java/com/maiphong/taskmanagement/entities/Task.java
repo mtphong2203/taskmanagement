@@ -48,4 +48,8 @@ public class Task {
     @OneToMany(mappedBy = "task")
     private List<Comment> comments;
 
+    // Relationship with notification entity
+    @OneToMany(mappedBy = "taskNotification")
+    private List<Notification> notifications;
+
 }
