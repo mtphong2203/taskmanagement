@@ -1,6 +1,6 @@
 package com.maiphong.taskmanagement.services;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,7 +73,7 @@ public class CommentServiceImpl implements CommentService {
         Comment newComment = new Comment();
 
         newComment.setContent(commentCreateDTO.getContent());
-        newComment.setCreateAt(LocalDate.now());
+        newComment.setCreateAt(LocalDateTime.now());
 
         if (commentCreateDTO.getTaskId() != null) {
             Task task = new Task();
@@ -99,7 +99,7 @@ public class CommentServiceImpl implements CommentService {
         }
 
         newComment.setContent(commentCreateDTO.getContent());
-        newComment.setCreateAt(LocalDate.now());
+        newComment.setCreateAt(LocalDateTime.now());
         if (commentCreateDTO.getTaskId() != null) {
             Task task = new Task();
             task.setId(commentCreateDTO.getTaskId());

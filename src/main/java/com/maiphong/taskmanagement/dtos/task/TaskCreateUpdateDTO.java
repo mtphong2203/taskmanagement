@@ -1,6 +1,7 @@
 package com.maiphong.taskmanagement.dtos.task;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.hibernate.validator.constraints.Length;
@@ -20,7 +21,7 @@ public class TaskCreateUpdateDTO {
     private String description;
 
     @NotNull(message = "Due date is required")
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 
     @NotNull(message = "Priority is required")
     private String priority;

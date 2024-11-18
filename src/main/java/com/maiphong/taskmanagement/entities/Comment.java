@@ -1,6 +1,6 @@
 package com.maiphong.taskmanagement.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +22,7 @@ public class Comment {
     private String content;
 
     @Column(name = "create_at", nullable = false)
-    private LocalDate createAt;
+    private LocalDateTime createAt;
     // Relationship with task
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id", referencedColumnName = "id")

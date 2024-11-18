@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +19,11 @@ import com.maiphong.taskmanagement.repositories.UserRepository;
 @Transactional
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    // private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -84,7 +86,7 @@ public class UserServiceImpl implements UserService {
         newUser.setLastname(userCreateDTO.getLastname());
         newUser.setUsername(userCreateDTO.getUsername());
         newUser.setEmail(userCreateDTO.getEmail());
-        newUser.setPassword(userCreateDTO.getPassword());
+        newUser.setPassword(passwordEncoder.encode(userCreateDTO.getPassword()));
 
         newUser = userRepository.save(newUser);
 
@@ -125,7 +127,7 @@ public class UserServiceImpl implements UserService {
         updateUser.setLastname(userEditDTO.getLastname());
         updateUser.setUsername(userEditDTO.getUsername());
         updateUser.setEmail(userEditDTO.getEmail());
-        updateUser.setPassword(userEditDTO.getPassword());
+        updateUser.setPassword(passwordEncoder.encode(userEditDTO.getPassword()));
 
         updateUser = userRepository.save(updateUser);
 

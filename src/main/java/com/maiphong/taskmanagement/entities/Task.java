@@ -1,6 +1,7 @@
 package com.maiphong.taskmanagement.entities;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class Task {
     private String description;
 
     @Column(name = "due_date", nullable = false)
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 
     @Column(name = "priority", nullable = false)
     private Priority priority;
@@ -34,10 +35,10 @@ public class Task {
     private Status status;
 
     @Column(name = "create_at", nullable = false)
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     @Column(name = "update_at", unique = true)
-    private LocalDate updateAt;
+    private LocalDateTime updateAt;
 
     // Relationship with project entity
     @ManyToOne(fetch = FetchType.LAZY)

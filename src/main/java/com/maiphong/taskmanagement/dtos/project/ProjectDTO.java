@@ -1,6 +1,7 @@
 package com.maiphong.taskmanagement.dtos.project;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -20,10 +21,10 @@ public class ProjectDTO {
     private String description;
 
     @NotNull(message = "start date is required")
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
     @NotNull(message = "end date is required")
-    private LocalDate endDate;
+    private LocalDateTime endDate;
 
     @NotNull(message = "status is required")
     private String status;

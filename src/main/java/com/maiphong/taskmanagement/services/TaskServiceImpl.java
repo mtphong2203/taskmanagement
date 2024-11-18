@@ -1,6 +1,6 @@
 package com.maiphong.taskmanagement.services;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -90,7 +90,7 @@ public class TaskServiceImpl implements TaskService {
         // input string value , need to convert to enum save to database
         newTask.setPriority(Priority.valueOf(taskCreateUpdateDTO.getPriority().toUpperCase()));
         newTask.setStatus(Status.valueOf(taskCreateUpdateDTO.getStatus().toUpperCase()));
-        newTask.setCreateAt(LocalDate.now());
+        newTask.setCreateAt(LocalDateTime.now());
 
         if (taskCreateUpdateDTO.getProjectId() != null) {
             Project project = new Project();
@@ -120,7 +120,7 @@ public class TaskServiceImpl implements TaskService {
         // input string value , need to convert to enum save to database
         task.setPriority(Priority.valueOf(taskCreateUpdateDTO.getPriority().toUpperCase()));
         task.setStatus(Status.valueOf(taskCreateUpdateDTO.getStatus().toUpperCase()));
-        task.setUpdateAt(LocalDate.now());
+        task.setUpdateAt(LocalDateTime.now());
 
         if (taskCreateUpdateDTO.getProjectId() != null) {
             Project project = new Project();

@@ -1,6 +1,7 @@
 package com.maiphong.taskmanagement.dtos.comment;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -14,7 +15,7 @@ public class CommentDTO {
     private String content;
 
     @NotNull(message = "time create should be exist!")
-    private LocalDate createAt;
+    private LocalDateTime createAt;
 
     private String taskName;
 }
