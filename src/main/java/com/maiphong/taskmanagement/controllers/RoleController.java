@@ -5,7 +5,9 @@ import java.util.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.maiphong.taskmanagement.dtos.role.RoleCreateDTO;
 import com.maiphong.taskmanagement.dtos.role.RoleDTO;
+import com.maiphong.taskmanagement.dtos.role.RoleUpdateDTO;
 import com.maiphong.taskmanagement.services.RoleService;
 
 @RestController
@@ -39,8 +41,8 @@ public class RoleController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody RoleDTO roleDTO) {
-        boolean isCreated = roleService.create(roleDTO);
+    public ResponseEntity<?> create(@RequestBody RoleCreateDTO roleCreateDTO) {
+        boolean isCreated = roleService.create(roleCreateDTO);
 
         if (!isCreated) {
             return ResponseEntity.badRequest().build();
@@ -50,8 +52,8 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody RoleDTO roleDTO) {
-        boolean isUpdated = roleService.update(id, roleDTO);
+    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody RoleUpdateDTO roleUpdateDTO) {
+        boolean isUpdated = roleService.update(id, roleUpdateDTO);
 
         if (!isUpdated) {
             return ResponseEntity.badRequest().build();

@@ -6,8 +6,11 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.maiphong.taskmanagement.dtos.role.RoleCreateDTO;
 import com.maiphong.taskmanagement.dtos.role.RoleDTO;
+import com.maiphong.taskmanagement.dtos.role.RoleUpdateDTO;
 import com.maiphong.taskmanagement.entities.Role;
+import com.maiphong.taskmanagement.entities.User;
 import com.maiphong.taskmanagement.exceptions.ResourceNotFoundException;
 import com.maiphong.taskmanagement.repositories.RoleRepository;
 
@@ -32,6 +35,10 @@ public class RoleServiceImpl implements RoleService {
             roleDTO.setName(role.getName());
             roleDTO.setDescription(role.getDescription());
 
+            if (role.getUser() != null) {
+                roleDTO.setUsername(role.getUser().getUsername());
+            }
+
             return roleDTO;
         }).toList();
         return roleDTOs;
@@ -50,18 +57,28 @@ public class RoleServiceImpl implements RoleService {
         roleDTO.setName(role.getName());
         roleDTO.setDescription(role.getDescription());
 
+        if (role.getUser() != null) {
+            roleDTO.setUsername(role.getUser().getUsername());
+        }
+
         return roleDTO;
     }
 
     @Override
-    public boolean create(RoleDTO roleDTO) {
-        if (roleDTO == null) {
+    public boolean create(RoleCreateDTO roleCreateDTO) {
+        if (roleCreateDTO == null) {
             throw new IllegalArgumentException("Role is required");
         }
 
         Role newRole = new Role();
-        newRole.setName(roleDTO.getName().toUpperCase());
-        newRole.setDescription(roleDTO.getDescription().toUpperCase());
+        newRole.setName(roleCreateDTO.getName().toUpperCase());
+        newRole.setDescription(roleCreateDTO.getDescription().toUpperCase());
+
+        if (roleCreateDTO.getUserId() != null) {
+            User user = new User();
+            user.setId(roleCreateDTO.getUserId());
+            newRole.setUser(user);
+        }
 
         newRole = roleRepository.save(newRole);
 
@@ -69,8 +86,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public boolean update(UUID id, RoleDTO roleDTO) {
-        if (roleDTO == null) {
+    public boolean update(UUID id, RoleUpdateDTO roleUpdateDTO) {
+        if (roleUpdateDTO == null) {
             throw new IllegalArgumentException("Role is required");
         }
 
@@ -80,8 +97,14 @@ public class RoleServiceImpl implements RoleService {
             throw new IllegalArgumentException("Role title is not exist!");
         }
 
-        newRole.setName(roleDTO.getName().toUpperCase());
-        newRole.setDescription(roleDTO.getDescription().toUpperCase());
+        newRole.setName(roleUpdateDTO.getName().toUpperCase());
+        newRole.setDescription(roleUpdateDTO.getDescription().toUpperCase());
+
+        if (roleUpdateDTO.getUserId() != null) {
+            User user = new User();
+            user.setId(roleUpdateDTO.getUserId());
+            newRole.setUser(user);
+        }
 
         newRole = roleRepository.save(newRole);
 

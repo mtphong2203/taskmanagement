@@ -21,4 +21,8 @@ public class Role {
 
     @Column(name = "description", columnDefinition = "NVARCHAR(500)")
     private String description;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 }

@@ -1,5 +1,7 @@
 package com.maiphong.taskmanagement.dtos.role;
 
+import java.util.UUID;
+
 import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.*;
@@ -9,7 +11,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDTO {
+public class RoleUpdateDTO {
 
     @NotNull(message = "Name is required")
     @NotBlank(message = "Name is not empty")
@@ -19,6 +21,6 @@ public class RoleDTO {
     @Length(max = 255, message = "Description maximum is 255 characters")
     private String description;
 
-    private String username;
+    private UUID userId;
 
 }
